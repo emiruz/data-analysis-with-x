@@ -66,6 +66,9 @@ follows:
 ```
 gnuplot plot.gp > example.png
 ``` 
+The red dot(s) are an actual paid prices, the gray dots are
+interpolated prices (one per month) and the solid line is a
+cublic spline.
 
 ![Interpolated price series example](example.png)
 
