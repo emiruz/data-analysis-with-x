@@ -81,7 +81,8 @@ Here is a quick sketch of the solution.
 1. Write down the optimisation function and use the `ad`
    package to produce its gradient function.
 
-2. Implement the adamax optimiser to do gradient descent.
+2. Implement the [adamax](https://arxiv.org/abs/1412.6980)
+   optimiser to do gradient descent.
 
 3. Parse `example.tsv` into a form that fits the cost function.
 
