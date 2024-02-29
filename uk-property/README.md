@@ -130,7 +130,7 @@ lon/lat coordinates to postcodes -- as not to detract from the
 analysis. They are straightforward -- I do them directly in SQL.
 
 * An alternative way to fit the parameters would be to note that
-$ log(p^t_i) = log(\alpha_i) + log(\beta_t) $ is linear, and
+$log(p^t_i) = log(\alpha_i) + log(\beta_t)$ is linear, and
 then fit it with a library specialised to large sparse linear
 problems.
 
