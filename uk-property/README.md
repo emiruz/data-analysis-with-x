@@ -94,7 +94,7 @@ There is no cabal file or build management for simplicity of
 exposition. Install these before running.
 
 ```
-cabal install --lib containers ad deepseq
+cabal install --lib containers random ad deepseq
 ```
 
 ## Running it
