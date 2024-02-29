@@ -8,20 +8,20 @@ import Numeric.AD (grad,auto)
 import System.Random (randomRs, mkStdGen)
 import Text.Printf(printf)
 
-type FVector = V.Vector Float
+type FVector = V.Vector Double
 
 
 {- PARSE AND PREPARE -}
 
-type NormRow = (Int,Int,Float)
+type NormRow = (Int,Int,Double)
 
 data Row = Row { house :: String, month :: String,
                  pType :: String, isNew :: Bool,
-                 duration :: String, price :: Float } deriving (Show)
+                 duration :: String, price :: Double } deriving (Show)
 
 toRows :: String -> [Row]
 toRows str = map (f . words) $ lines str
-  where f [a,b,c,d,e,f] = Row a (take 6 b) c (toBool d) e (read f :: Float)
+  where f [a,b,c,d,e,f] = Row a (take 6 b) c (toBool d) e (read f :: Double)
         f _ = error "Invalid format."
         toBool x = if x=="Y" then True else False
 
@@ -42,14 +42,14 @@ adaMax f' th t m u
   where g   = f' th
         m'  = V.zipWith  (\m g->beta1 * m + (1-beta1) * g) m g
         u'  = V.zipWith  (\u g->max (beta2*u) (abs g)) u g
-        th' = V.zipWith3 (\th m u->th-(alpha/(1-beta1^(t+1)))*m/(u+1e-8)) th m' u'
+        th' = V.zipWith3 (\th m u->th-(alpha/(1-beta1^(t+1)))*m/u) th m' u'
         (alpha, beta1, beta2) = (0.002, 0.99, 0.999)
 
 optimise :: [NormRow] -> (FVector, FVector)
 optimise ps = (V.take m ws, V.map (\x->x*mxP) $ V.drop m ws)
   where
      ws     = adaMax (grad cost) start 0 zeros zeros
-     cost v = sqrt $ sum $ map (\(i,j,p)-> (auto p-(v V.! i)*(v V.! (m+j)))^2) ps'
+     cost v = sqrt . sum $ map (\(i,j,p)-> (auto p-(v V.! i)*(v V.! (m+j)))^2) ps'
      m      = 1 + (maximum $ map (\(i,_,_)->i) ps)
      n      = 1 + (maximum $ map (\(_,j,_)->j) ps)
      mxP    = maximum $ map (\(_,_,p)-> p) ps

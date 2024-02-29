@@ -28,4 +28,4 @@ like autodiff, we can largely bootstrap outselves.
 
 [UK property price model](uk-property/) -- A model to 
 interpolate the full price series for a UK property from
-just public price sold information.
+just public price paid data.

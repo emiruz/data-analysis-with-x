@@ -116,13 +116,26 @@ gradient magnitude of below `1e-4`.
 
 ## Notes
 
-An alternative way to fit the parameters would be to note that
+* This model converges on a variety of data, but several things
+were necessary to facilitate this: (1) using `Double` instead of
+`Float` to avoid division by zero due to round, or adding a small
+constant to all divisions, (2) normalising prices to a range of
+zero to 1 so that variables could be initialised to random values
+in the same range, and (3) a minimum gradient no smaller than
+`1e-4` since it either hits saddle points at that level or a
+precision limit.
+
+* I've left out some pre-processing steps -- namely connecting
+lon/lat coordinates to postcodes -- as not to detract from the
+analysis. They are straightforward -- I do them directly in SQL.
+
+* An alternative way to fit the parameters would be to note that
 $ log(p^t_i) = log(\alpha_i) + log(\beta_t) $ is linear, and
 then fit it with a library specialised to large sparse linear
 problems.
 
 
-## Thanks!
+## Acknowledgements
 
 Thank you to the members of the Haskell community, who kindly
 helped a neophyte like me muddle through some of Haskell's
