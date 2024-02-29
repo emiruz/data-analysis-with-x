@@ -24,12 +24,13 @@ represented by a constant per house, and a time specific
 multiple.
 
 The associated optimisation problem to fit the $\alpha,\beta$
-parameters is given by:
+parameters form data is given by:
 
 $$\underset{\alpha,\beta}{\mathrm{arg\,min}} \sum (x^t_i - \alpha_i\beta_t)^2 $$
 
-Note that the cost function is convex, so I should be able to
-fit it properly with gradient descent.
+where $x^t_i$ is the actual house price at time $t$. Note that
+the cost function is convex, so I should be able to fit it
+properly with gradient descent.
 
 Note that $t$, is something like a calendar month. As a result,
 any given $\beta_t$ applies to many sales Similarly, houses are
