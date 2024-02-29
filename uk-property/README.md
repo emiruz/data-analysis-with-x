@@ -23,10 +23,10 @@ Intuitively, if all prices are proportional, they can be
 represented by a constant per house, and a time specific 
 multiple.
 
-The associated optimisation problem which I can use to fit the
-$\alpha,\beta$ parameters is as follows:
+The associated optimisation problem to fit the $\alpha,\beta$
+parameters is given by:
 
-$$\argmin_{\alpha,\beta} \sum (x^t_i - \alpha_i\beta_t)^2 $$
+$$\underset{\alpha,\beta}{\mathrm{arg\,min}} \sum (x^t_i - \alpha_i\beta_t)^2 $$
 
 Note that the cost function is convex, so I should be able to
 fit it properly with gradient descent.
@@ -56,8 +56,8 @@ where `lon`, `lat` and `n` are longitude, latitude and half the
 width of the bounding square in kilometres respectively.
 
 Once the equation is fitted, since I then have all $\alpha,\beta$
-parameters, for any given property $i$, $\alpha_i\beta_t$, for
-all $\t$ generates a full time series of its interpolated price.
+parameters, $\alpha_i\beta_t$, for all $t$ generates a full time
+series of interpolated price.
 
 Here is an example of the output produced using `gnuplot` as
 follows:
@@ -105,3 +105,16 @@ ghc -O2 analysis.hs
 ./analysis > interpolated.tsv
 gnuplot plot.gp > example.png
 ```
+
+The example has a 2.5km half width catchment, which is fairly
+huge. It takes about 5 minutes to calculate the optimisation
+problem to a gradient for over 30k parameters to a max
+gradient magnitude of below `1e-4`.
+
+
+## Notes
+
+An alternative way to fit the parameters would be to note that
+$ log(p^t_i) = log(\alpha_i) + log(\beta_t) $ is linear, and
+then fit it with a library specialised to large sparse linear
+problems.
