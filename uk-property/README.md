@@ -120,3 +120,10 @@ An alternative way to fit the parameters would be to note that
 $ log(p^t_i) = log(\alpha_i) + log(\beta_t) $ is linear, and
 then fit it with a library specialised to large sparse linear
 problems.
+
+
+## Thanks!
+
+Thank you to the members of the Haskell community, who kindly
+helped a neophyte like me muddle through some of Haskell's
+idiosyncracies.
