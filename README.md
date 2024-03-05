@@ -1,7 +1,8 @@
 # DATA ANALYSIS WITH HASKELL
 
-A repository of adhoc analyses using the programming
-language Haskell.
+A repository of adhoc analyses and algorithmic
+demonstrators using the programming language Haskell.
+
 
 ## Rationale
 
@@ -16,16 +17,26 @@ The common complaint is library support, so part of
 what I aim to show is that if you pay attention to what
 you're doing when performing analyses, there is often
 not much you need that you cannot write yourself quickly.
-For example, the first analysis committed herein was a
-[UK property price model](uk-property/). It features a
-tricky regression problem solved using differentiable
-programming. Yet all the code needed including a custom
-input parser and optimiser is just 55 lines of Haskell.
-More generally, I'll aim to show that armed with basics
-like autodiff, we can largely bootstrap outselves.
+
+More generally, I'll aim to show that given a few basic
+ingredients, we can effectively bootstrap outselves.
+I'll try to keep the lines of code and the Haskell
+vocabulary minimal whilst maintaining a reasonable
+performance.
+
 
 ## Contents
 
-[UK property price model](uk-property/) -- A model to 
-interpolate the full price series for a UK property from
-just public price paid data.
+[Sparse non-linear regression](uk-property/) -- A model
+to interpolate the price series for a UK property from
+public price paid data by setting up a large sparse
+non-linear regression. `regression`, `sparse`, 
+`parameter-estimation`,`autodiff`,`optimisation`
+
+[Jointly learning transformations and fitting a regression](joint-regression/)
+-- A 5 parameter non-linear pipeline composed of a two
+Yeo-Johnson transforms, a sigmoid function which bisects
+the model, and a linear regression. It is jointly fitted
+using "threshold accepting" annealing which is implemented
+herein. `feature-learning`, `regression`,
+`global-optimisation`, `parameter-estimation`.
