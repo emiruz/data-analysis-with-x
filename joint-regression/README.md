@@ -67,7 +67,7 @@ $sig(x, x_0) = 1 / (1 + e^{-50(x-x_0)})$
 
 $\bar{y} = yeo(x,\lambda_1) \times (1-sig(x,x_0)) + yeo(x,\lambda_2) \times sig(x,x_0)$
 
-$ y = \alpha \bar{y} + \beta + \epsilon$
+$y = \alpha \bar{y} + \beta + \epsilon$
 
 where $yeo$ is the Yeo-Johnson transform, and $\epsilon \sim N(0, \sigma^2)$.
 
