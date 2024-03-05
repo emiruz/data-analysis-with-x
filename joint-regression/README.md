@@ -10,33 +10,33 @@ transformation and the regression simultaneously, such
 that the transformation is not "blind", but serves
 directly to improve model fit. Moreover, we can chain
 transformations/models together to achieve flexible
-parameterised pipelines all parts of which are then
-jointly optimised.
+parameterised pipelines all parts of which are jointly
+optimised.
 
 There are two main facilitators for this way of modelling:
 (1) differentiable programming *ala* autodiff and gradient
 descent, and (2) global optimisation. Point 1 is well
 suited to fitting neural network architectures and well
-behaved continuous parametric functions otherwise. Point 2
-is moreso how scientists have been fitting all sorts of 
-parametric models since the 80s, which is the approach I've
-taken in this demonstration.
+behaved continuous parametric functions. Point 2 is moreso
+how scientists have been fitting all sorts of parametric
+models since the 80s, which is the approach I've taken in
+this demonstration.
 
 Statistical models are typically conceived as invertable
-parameteric functions, by which I mean that we start with
-some function which we imagine generates the data we are
-seeing, and then implement some procedure to recover the
-function parameters from the data. Take for example a 
-power transform attached to a linear regression:
+parametric functions. That is, we start with some function
+which we imagine generates the data we are seeing, and then
+implement some procedure to recover the function parameters
+from the data. Take for example a power transform attached
+to a linear regression:
 
-$$ y = \alpha g(x) + \beta $$
+$$ y = \alpha g(x;\lambda) + \beta $$
 
 where $g(x;\lambda)$ is the power transform parameterised
 by $\lambda$, and $\alpha,\beta$ are the coefficients of a
 linear regression. You can think of it as using a power 
 transform to "flatten" the data before fitting it, and it
-has the effect of making drastically more series amenable
-to simple linear regression.
+has the effect of making drastically more data series
+amenable to simple linear regression.
 
 ## A flexible non-linear function
 
@@ -48,22 +48,30 @@ generating function:
 2. Pick a point somewhere along the line and divide the
    line into two segments.
 
-3. Power transform each segment: I use the Yeo-Johnson
-   transform.
+3. Power transform each segment: I use the
+[Yeo-Johnson](https://en.wikipedia.org/wiki/Power_transform#Yeo%E2%80%93Johnson_transformation)
+   transform because its parameter is not range bound
+   making it convenient for optimisation.
    
-4. Add some Gaussian noise to each data point.
-   
+4. Add some Gaussian noise to each data point. I use the
+   Box-Muller transform to convert points sampled from a
+   uniform distribution into a Gaussian.
+
 The result is a non-linear function with a vast variety
 of possible shapes. I won't pursue it here, but in the
 general case, we could have $n-1$ change points and $n$
 power transforms. Here are the equations describing the
 data generating function:
 
-EQUATIONS
+$$ sig(x, x_0) = 1 / (1 + e^{-50(x-x_0)})$$
+
+$$ y = yeo(x,\lambda_1) * (1-sig(x,x_0)) + yeo(x,\lambda_2)*sig(x,x_0) + \epsilon $$
+
+where $yeo$ is the Yeo-Johnson transform, and $\epsilon \sim N(0, \sigma^2)$.
 
 Here is a plot of what it looks like with the following
 parameters:
-$ x_0=50,\lambda_1 =0.7,\lambda_2=1.4,\alpha=2,\beta= 100,\sigma = 50$
+$x_0=50,\lambda_1 =0.7,\lambda_2=1.4,\alpha=2,\beta= 100,\sigma = 50$
 
 ![Synthetic data plot](example.png)
 
