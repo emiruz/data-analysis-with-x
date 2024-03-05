@@ -65,9 +65,12 @@ data generating function:
 
 $sig(x, x_0) = 1 / (1 + e^{-50(x-x_0)})$
 
-$y = yeo(x,\lambda_1) * (1-sig(x,x_0)) + yeo(x,\lambda_2)*sig(x,x_0) + \epsilon$
+$\bar{y} = yeo(x,\lambda_1) \times (1-sig(x,x_0)) + yeo(x,\lambda_2) \times sig(x,x_0)$
+
+$ y = \alpha \bar{y} + \beta + \epsilon$
 
 where $yeo$ is the Yeo-Johnson transform, and $\epsilon \sim N(0, \sigma^2)$.
+
 Here is a plot of what it looks like with the following parameters:
 $x_0=50,\lambda_1 =0.7,\lambda_2=1.4,\alpha=2,\beta= 100,\sigma = 50$
 
