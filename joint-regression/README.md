@@ -117,8 +117,8 @@ Here is a sketch of the solution:
    
 The results are very good especially given an algorithm
 of such simplicity. If I set $\sigma=0$ for the data 
-generating function I can recover the parameters almost
-perfectly: 
+generating function, for 1000 data points, I can recover
+the parameters almost perfectly: 
 
 ```
 SSE = 2.41737473692175
@@ -130,7 +130,8 @@ a  = 1.9949945599502708
 b  = 100.06270480468355
 ```
 
-Meanwhile, here are the results for the noisy function:
+Meanwhile, here are the results for 1000 points fitted
+from the noisy function:
 
 ```
 SSE = 2463477.4443425345,
