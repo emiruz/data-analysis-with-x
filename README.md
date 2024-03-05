@@ -31,7 +31,7 @@ performance.
 to interpolate the price series for a UK property from
 public price paid data by setting up a large sparse
 non-linear regression. `regression`, `sparse`, 
-`parameter-estimation`,`autodiff`,`optimisation`
+`parameter-estimation`, `autodiff`, `optimisation`
 
 [Jointly learning transformations and fitting a regression](joint-regression/)
 -- A 5 parameter non-linear pipeline composed of a two
