@@ -40,3 +40,10 @@ the model, and a linear regression. It is jointly fitted
 using "threshold accepting" annealing which is implemented
 herein. `feature-learning`, `regression`,
 `global-optimisation`, `parameter-estimation`.
+
+Convolutional logistic regression -- Next up! 
+Classification of digits from the
+[MNIST 1D](https://github.com/greydanus/mnist1d) dataset
+by jointly fitting convolutional filters and a logistic
+regression model without a neural network! `feature-learning`,
+`classification`, `autodiff`
