@@ -1,4 +1,6 @@
-# DATA ANALYSIS WITH X, where $x \in {prolog, haskell, fortran, c, ...}$
+# DATA ANALYSIS WITH X
+
+where $x \in \{prolog, haskell, fortran, c, ... \}$
 
 A repository of adhoc analyses and algorithmic
 demonstrators using various programming languages.
