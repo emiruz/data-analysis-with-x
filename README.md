@@ -31,12 +31,14 @@ that we cannot quickly write yourselves.
 
 ## Contents
 
-[Sparse non-linear regression](uk-property/) -- A model
-to interpolate the price series for a UK property from
+[UK property model](uk-property/) -- A model to
+interpolate the price series of a UK property from
 public price paid data by setting up a large sparse
-non-linear regression. `haskell`, `regression`,
-`sparse`, `parameter-estimation`, `autodiff`,
-`optimisation`
+regression. Two solutions are given: an approximate
+solution in Haskell, and an exact solution in Fortran.
+`haskell`, `fortran`, `regression`, `sparse`,
+`parameter-estimation`, `autodiff`, `optimisation`,
+`lapack`
 
 [Jointly learning transformations and fitting a regression](joint-regression/)
 -- A 5 parameter non-linear pipeline composed of a two
