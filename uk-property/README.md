@@ -60,24 +60,30 @@ Once the equation is fitted, since I then have all $\alpha,\beta$
 parameters, $\alpha_i\beta_t$, for all $t$ generates a full time
 series of interpolated price.
 
-Here is an example of the output produced using `gnuplot` as
-follows:
+Here is an example of the output produced using `gnuplot` and the
+approximate gradient descent solution. Note, the red dot(s) are
+actual paid prices, the gray dots are interpolated prices (one
+per month) and the solid line is a cublic spline.
 
-```
-gnuplot plot.gp > example.png
-``` 
-The red dot(s) are an actual paid prices, the gray dots are
-interpolated prices (one per month) and the solid line is a
-cublic spline.
+![Interpolated price series example](approx.png)
 
-![Interpolated price series example](example.png)
+Here is an example output fitted with the exact algorithm.
+
+![Interpolated price series example](exact.png)
 
 
-## Implementation
+## Implementations
 
-The implementation is in Haskell using just an automatic
-differentiation library. That is, everything else is written
-from scratch in about 55 lines of code (LoC).
+I've coded two implementations: in Haskell, an approximate,
+gradient descent based solution using auto-differentiation and
+the Adam optimiser, and in Fortran, an exact solution using the
+[sgels](https://netlib.org/lapack/explore-html-3.6.1/d0/db8/group__real_g_esolve_gacd49b6b29636a826370633a8856bd3bd.html)
+LAPACK dense matrix solver.
+
+### A gradient descent approximation (in Haskell)
+
+This implementation uses an automatic differentiation library,
+the optimiser itself is written herein.
 
 Here is a quick sketch of the solution.
 
@@ -92,8 +98,6 @@ Here is a quick sketch of the solution.
 4. Use the adaMax function to fit $\alpha,\beta$. Wrange the
    output into TSV.
 
-## Dependencies
-
 There is no cabal file or build management for simplicity of 
 exposition. Install these before running.
 
@@ -101,41 +105,56 @@ exposition. Install these before running.
 cabal install --lib containers random ad deepseq
 ```
 
-## Running it
-
 Compile, execute, and plot:
 
 ```
-ghc -O2 analysis.hs
-./analysis > interpolated.tsv
-gnuplot plot.gp > example.png
+ghc -O2 approx.hs
+./approx > interpolated.tsv
+gnuplot plot.gp > approx.png
 ```
 
-The example has a 2.5km half width catchment, which is fairly
-huge. It takes about 5 minutes to calculate the optimisation
-problem to a gradient for over 30k parameters to a max
-gradient magnitude of below `1e-4`.
+The example has a 2.5km half width catchment, which is large.
+It takes about 5 minutes to calculate the optimisation problem
+for >60k data points and >34k parameters.
 
+### Exact solution (in Fortran)
+
+The model $p^t_i = \alpha_i\beta_t$ can be linearised to 
+$log(p^t_i) = log(\alpha_i) + log(\beta_t)$ and then solved
+using a standard dense solver from LAPACK since a 60k x 34k
+matrix is still small enough to fit into memory given that I 
+use 32-bit reals. Since the problem is over-determined I use
+the [sgels](https://netlib.org/lapack/explore-html-3.6.1/d0/db8/group__real_g_esolve_gacd49b6b29636a826370633a8856bd3bd.html)
+routine. 
+
+Compile, execute and plot:
+```
+gfortran -O3 -o exact exact.f90 -llapack
+./exact > interpolated.tsv
+gnuplot plot.gp > exact.png
+```
+The solver executes in just under 9 minutes, using all 4 cores
+on my laptop.
 
 ## Notes
 
-* This model converges on a variety of data, but several things
-were necessary to facilitate this: (1) using `Double` instead of
-`Float` to avoid division by zero due to round, or adding a small
-constant to all divisions, (2) normalising prices to a range of
-zero to 1 so that variables could be initialised to random values
-in the same range, and (3) a minimum gradient no smaller than
-`1e-4` since it either hits saddle points at that level or a
-precision limit.
+* The Haskell approximate model converges on a variety of data,
+but several things were necessary to facilitate this: (1) using
+`Double` instead of `Float` to avoid division by zero due to
+round, or adding a small constant to all divisions, (2)
+normalising prices to a range of zero to 1 so that variables
+could be initialised to random values in the same range, and
+(3) a minimum gradient no smaller than `1e-4` since it either
+hits saddle points at that level or a precision limit.
+
+* The Fortan exact solution takes significantly longer to complete
+(9min vs 5min) and it is much more computationally expensive but
+the difference in precision is very significant even by eye
+(see graphs above).
 
 * I've left out some pre-processing steps -- namely connecting
 lon/lat coordinates to postcodes -- as not to detract from the
 analysis. They are straightforward -- I do them directly in SQL.
-
-* An alternative way to fit the parameters would be to note that
-$log(p^t_i) = log(\alpha_i) + log(\beta_t)$ is linear, and
-then fit it with a library specialised to large sparse linear
-problems.
 
 
 ## Acknowledgements

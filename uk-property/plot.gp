@@ -1,6 +1,6 @@
 set datafile separator "\t"
 set xdata time
-set timefmt "%Y%m%d"
+set timefmt "%Y%m"
 set format x "%Y-%m"
 set terminal pngcairo size 800,600 enhanced font 'Verdana,8'
 #set output 'plot.png'
@@ -24,4 +24,5 @@ unset colorbox
 set grid lt 1 lw 1 lc rgb "#dddddd"
 
 plot 'interpolated.tsv' using 1:2:3 with points palette pt 7 notitle, \
-     '' using 1:2 smooth cspline with lines lc "black" dt 1 lw 1 title 'Price'
+     '' using 1:2 smooth cspline with lines lc "black" dt 1 lw 1 title 'Price', \
+     '' using 1:($3>0 ? $2 : 1/0):3 with points palette pt 7 notitle

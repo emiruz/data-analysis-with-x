@@ -71,4 +71,4 @@ main = do
       wTarget      = wHs V.! tId'
       interpol     = V.toList $ V.imap (\i x-> (ds V.! i, wTarget * x, 0)) wDs
       points       = map (\(i,j,x)->(ds V.! j, x, 1)) $ filter(\(i,_,_)->i==tId') ps
-  mapM_ (\(d,p,f)->printf "%s01\t%.0f\t%d\n" d p (f :: Int)) (interpol ++ points)
+  mapM_ (\(d,p,f)->printf "%s\t%.0f\t%d\n" d p (f :: Int)) (interpol ++ points)
